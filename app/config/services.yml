@@ -1,0 +1,17 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+    repo.promotions:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - \OnlineShopBundle\Entity\Promotion
+    promotion_manager:
+        class: OnlineShopBundle\Service\PromotionManager
+        arguments: ['@repo.promotions']
+    price_calculator:
+        class: OnlineShopBundle\Service\PriceCalculator
+        arguments: ['@promotion_manager']

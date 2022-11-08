@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+
+        <h1 style="alignment: center">{{ user.username }}</h1>
+
+        <div class="table-responsive">
+            <table class="table table-hover" border="1">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td width="800">{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    <td>{{ user.roles[0] }}</td>
+                </tr>
+                <tr>
+                    <th>Cash</th>
+                    <td>{{ user.cash }} лв.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <ul>
+
+            {#{% if user.id == product.user.id  or is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}#}
+
+                <form method="post" action="{{ path('edit_user_form', { 'id': user.id }) }}">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+            <br>
+                <form method="post" action="{{ path('delete_user_process', { 'id': user.id }) }}">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </form>
+
+            {#{% endif %}#}
+            {#<li>#}
+                {#<form method="post" action="{{ path('all_users') }}">#}
+                    {#<button type="submit">Back to all users</button>#}
+                {#</form>#}
+            {#</li>#}
+        </ul>
+    </div>
+{% endblock %}

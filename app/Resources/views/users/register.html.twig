@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+{% block herader %}
+{% endblock %}
+{% block body %}
+
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary" formnovalidate>Register</button>
+            {{ form_end(form) }}
+            <br>
+            <a href="{{ path('our_login') }}" style="color: white">
+                <button type="submit" class="btn btn-primary">Log In</button>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

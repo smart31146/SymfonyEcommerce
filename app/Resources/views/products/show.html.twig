@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+
+        <h1 style="alignment: center">{{ product.name }}</h1>
+
+        <div class="table-responsive">
+            <table class="table table-hover" border="1">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ product.id }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td width="800">{{ product.name }}</td>
+                </tr>
+                <tr>
+                    <th>Price</th>
+                    <td>
+                        {% set product_promotion = calc.calculate(product) %}
+                        {% set col = "black" %}
+
+                        {% if product_promotion != product.price %}
+                            {% set col = "red" %}
+                            <del style="color: black">{{ product.price | number_format(2) }} лв.</del><br/>
+                        {% endif %}
+                        <div style="color: {{ col }}">{{ product_promotion | number_format(2) }} лв.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ product.description }}</td>
+                </tr>
+                <tr>
+                    <th>Quantity Available</th>
+                    <td>{{ product.quantity }}</td>
+                </tr>
+                <tr>
+                    <th>Image</th>
+                    <td><img src="/images/products/{{ product.image }}" style="width: 250px;"></td>
+                </tr>
+                <tr>
+                    <th>Category</th>
+                    <td><a href="{{ path('category_products', {'id':product.category.id}) }}">{{ product.category }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Tags</th>
+                    <th>
+                        {% for tag in product.tags %}
+                            <a href="{{ path('tag_products', {'id': tag.id}) }}">{{ tag.name }}</a>  |
+                        {% endfor %}
+                    </th>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <h1>Reviews</h1>
+        <div class="table-responsive">
+            <table class="table table-hover" border="1">
+                <tr style="background-color: darkorange">
+                    <th>Rating</th>
+                    <th>Comment</th>
+                </tr>
+                {% if product.reviews is defined %}
+                    {% for review in product.reviews %}
+                        <tr>
+                            <td>{{ review.rating }}</td>
+                            <td>{{ review.comment }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td> No ratings to show</td>
+                        <td> No comments to show</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+
+        <ul>
+            <li>
+                <form method="post" action="{{ path('leave_review_form', {'id':product.id}) }}">
+                    <button type="submit">Leave Review</button>
+                </form>
+            </li>
+
+            {% if user.id == product.user.id  or is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+
+                <li>
+                    <form method="post" action="{{ path('edit_product_form', { 'id': product.id }) }}">
+                        <button type="submit">Edit</button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post" action="{{ path('delete_product_process', {'id':product.id}) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post" action="{{ path('add_tag_form', {'id':product.id}) }}">
+                        <button type="submit">Add Tag</button>
+                    </form>
+                </li>
+            {% endif %}
+            {#<li>#}
+                {#<form method="post" action="{{ path('all_products') }}">#}
+                    {#<button type="submit">Back to the list</button>#}
+                {#</form>#}
+            {#</li>#}
+
+        </ul>
+    </div>
+{% endblock %}

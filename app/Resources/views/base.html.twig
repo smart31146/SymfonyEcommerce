@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+{% block herader %}
+    <div class="container">
+        <br>
+        <a href="{{ path('homepage') }}" style="color: white">
+            <button type="submit" class="btn btn-primary">Home</button>
+        </a>
+        <a href="{{ path('all_products') }}" style="color: white">
+            <button type="submit" class="btn btn-primary">Products</button>
+        </a>
+        <a href="{{ path('all_categories') }}" style="color: white">
+            <button type="submit" class="btn btn-primary">Categories</button>
+        </a>
+
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+            <a href="{{ path('add_product_form') }}" style="color: white">
+                <button type="submit" class="btn btn-primary">Add Product</button>
+            </a>
+            {#<form method="post" action="{{ path('add_product_form') }}">#}
+                {#<button type="submit" class="btn btn-primary">Add Product</button>#}
+            {#</form>#}
+            <a href="{{ path('add_category_form') }}" style="color: white">
+                <button type="submit" class="btn btn-primary">Add Category</button>
+            </a>
+        <a href="{{ path('add_promotion_form') }}" style="color: white">
+                <button type="submit" class="btn btn-primary">Add Promotion</button>
+            </a>
+        {% endif %}
+        {% if  is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('all_users') }}" style="color: white">
+                <button type="submit" class="btn btn-primary">Users</button>
+            </a>
+        {% endif %}
+        <a href="{{ path('cart_list') }}" style="color: white">
+            <button type="submit" class="btn btn-primary">Your Cart</button>
+        </a>
+        <a href="{{ path('logout') }}" style="color: white">
+            <button type="submit" class="btn btn-primary">Log Out</button>
+        </a>
+        <br>
+    </div>
+    <br>
+{% endblock %}
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/stylesheet1.css') }}">
+</head>
+<body class="backgroundImage" style="text-align: center">
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+{#<footer>#}
+{#{% block footer %}#}
+
+{#{% endblock %}#}
+{#</footer>#}
+</html>

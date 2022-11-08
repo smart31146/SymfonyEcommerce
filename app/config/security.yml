@@ -1,0 +1,36 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+    encoders:
+            OnlineShopBundle\Entity\User:
+                algorithm: bcrypt
+
+    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        our_db_provider:
+            entity:
+                class: OnlineShopBundle:User
+                property: username
+
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            pattern: ^/
+            form_login:
+                provider: our_db_provider
+                login_path: our_login
+                check_path: our_login
+            logout:
+                path: /logout
+                target: /login
+
+    access_control:
+          - { path: ^/register , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+          - { path: ^/login , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+          - { path: ^/, roles: [ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR] }

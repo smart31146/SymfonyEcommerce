@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4">
+
+            {{ form_start(promotionForm) }}
+            {{ form_widget(promotionForm) }}
+            <button type="submit" class="btn btn-primary" formnovalidate>Add Promotion</button>
+            {{ form_end(promotionForm) }}
+        </div>
+    </div>
+{% endblock %}

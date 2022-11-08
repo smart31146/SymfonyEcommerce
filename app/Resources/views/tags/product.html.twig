@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4">
+
+            {% for tag in product.tags %}
+                <u><a href="{{ path('tag_products', {'id': tag.id}) }}">{{ tag.name }}</a></u><br>
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}

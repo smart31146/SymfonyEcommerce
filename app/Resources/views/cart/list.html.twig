@@ -1,0 +1,65 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    {% set totprice = 0 %}
+    <div class="container">
+        {% for msg in app.session.flashBag.get('remove') %}
+            <div class="alert alert-danger">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+        {% for msg in app.session.flashBag.get('addCart') %}
+            <div class="alert alert-success">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+
+        <h2>Your Cart</h2>
+        <table class="table table-hover" border="1">
+            <thead>
+            <tr>
+                <td>Product</td>
+                <td>Quantity</td>
+                <td>Price per Product</td>
+                <td>Total Price</td>
+                <td>Remove</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in cart_product %}
+                {% if user.id == product.cart.userId.id %}
+                    <tr>
+                        <td>{{ product.product.name }}</td>
+                        <td>{{ product.qty }}</td>
+                        <td>
+                            {% set product_promotion = calc.calculate(product.product) %}
+                            {% set col = "black" %}
+
+                            {% if product_promotion != product.product.price %}
+                                {% set col = "red" %}
+                                <del style="color: black">{{ product.product.price | number_format(2) }} лв.</del><br/>
+                            {% endif %}
+                            <div style="color: {{ col }}">{{ product_promotion | number_format(2) }} лв.</div>
+                        </td>
+                        <td>{{ product_promotion*product.qty | number_format(2) }} лв.</td>
+                        <td>
+                            <a href="{{ path('remove_cart_product_process', {'id':product.id}) }}">Remove form Cart</a>
+                        </td>
+                        {% set totprice = totprice +  product_promotion*product.qty %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <h3><b>Total price: {{ totprice| number_format(2) }} лв.</b></h3>
+        <a href="{{ path('cart_checkout')}}"><button type="submit" class="btn btn-primary">Check out</button></a>
+    </div>
+    {#{% for product in cart_product %}#}
+    {#{% if user.id == product.cart.userId.id %}#}
+
+    {#{{ product.product.name }} => {{ product.qty }}<br>#}
+
+    {#{% endif %}#}
+    {#{% endfor %}#}
+
+{% endblock %}

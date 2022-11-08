@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+{% block herader %}
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4">
+
+            {{ form_start(reviewForm, {'action': path('leave_review_process', {'id': product.id}) }) }}
+            {{ form_widget(reviewForm) }}
+            <button type="submit" class="btn btn-primary" formnovalidate>Leave comment</button>
+            {{ form_end(reviewForm) }}
+        </div>
+    </div>
+
+{% endblock %}

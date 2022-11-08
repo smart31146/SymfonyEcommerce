@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="container">
+
+        {% for msg in app.session.flashBag.get('info') %}
+            <div class="alert alert-success">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+
+        {% for msg in app.session.flashBag.get('delete') %}
+            <div class="alert alert-danger">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+
+        <div class="count">
+            <h4>Total users: {{ pagination.getTotalItemCount }}</h4>
+        </div>
+        {#<h3>Sort by:#}
+        {#{{ knp_pagination_sortable(pagination, "Name", "p.name") }} /#}
+        {#{{ knp_pagination_sortable(pagination, "Email", "u.email") }}/#}
+        {#<br>#}
+        {#</h3>#}
+        <div class="table-responsive">
+            <table class="table table-hover" border="1">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.roles[0] }}</td>
+                        <td><a href="{{ path('show_user', { 'id': user.id }) }}">Show Details</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {#<td colspan="4">#}
+            {#<div class="navigation">#}
+            {#{{ knp_pagination_render(pagination) }}#}
+            {#</div>#}
+            {#</td>#}
+        </div>
+    </div>
+{% endblock %}

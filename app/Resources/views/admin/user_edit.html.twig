@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4">
+            {#Username: <input type="text" value="{{ user.username }}"><br>#}
+            {#Email: <input type="email" value="{{ user.email }}"><br>#}
+            {#Role: <select name="role" onselect="{{ user.roles[0] }}">#}
+            {#<option value="ROLE_USER">User</option>#}
+            {#<option value="ROLE_MODERATOR">Moderator</option>#}
+            {#<option value="ROLE_ADMIN">Admin</option>#}
+            {#</select>#}
+            {#<br>#}
+            {{ form_start(userForm) }}
+            {{ form_widget(userForm) }}
+            <button type="submit" class="btn btn-primary" formnovalidate>Edit User</button>
+
+            {{ form_end(userForm) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% for msg in app.session.flashBag.get('checkOut') %}
+            <div class="alert alert-success">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+        <h1 style="color: red">{{ "The page is under construction" }}</h1>
+
+    </div>
+{% endblock %}
+

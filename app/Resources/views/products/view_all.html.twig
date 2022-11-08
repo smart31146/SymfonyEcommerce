@@ -1,0 +1,91 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+        {% set pages = pagination_admin %}
+    {% else %}
+        {% set pages = pagination %}
+    {% endif %}
+
+    <div class="container">
+
+        {% for msg in app.session.flashBag.get('info') %}
+            <div class="alert alert-success">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+
+        {% for msg in app.session.flashBag.get('delete') %}
+            <div class="alert alert-danger">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+        {% for msg in app.session.flashBag.get('error') %}
+            <div class="alert alert-danger">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+
+        <div class="count">
+            <h4>Total items: {{ pages.getTotalItemCount }}</h4>
+        </div>
+        <h3>Sort by:
+            {{ knp_pagination_sortable(pages, "Price", "p.price") }} /
+            {{ knp_pagination_sortable(pages, "Name", "p.name") }}/
+            {{ knp_pagination_sortable(pages, "ID", "p.id") }}/<br>
+        </h3>
+        <form action="{{ path('cart_add') }}" method="post">
+
+            <div class="table-responsive">
+                <table class="table table-hover" border="1">
+                    <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Show</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in pages %}
+                        {% if product.quantity == 0 %}
+                            {% set color = 'red' %}
+                        {% else %}
+                            {% set color = 'black' %}
+
+                        {% endif %}
+                        <tr style="color: {{ color }}">
+                            <td><img src="/images/products/{{ product.image }}" style="width: 50px;"></td>
+                            <td>
+                                {{ product.id }}
+                                <input type="checkbox" value="{{ product.id }}" name="products[]">
+
+                            <td>{{ product.name }}</td>
+                            {#<td>{{ product.price }} лв.</td>#}
+                            <td>
+                                {% set product_promotion = calc.calculate(product) %}
+                                {% set col = "black" %}
+
+                                {% if product_promotion != product.price %}
+                                    {% set col = "red" %}
+                                    <del style="color: black">{{ product.price | number_format(2) }} лв.</del><br/>
+                                {% endif %}
+                                <div style="color: {{ col }}">{{ product_promotion | number_format(2) }} лв.</div>
+                            </td>
+                            <td><a href="{{ path('product_show', { 'id': product.id }) }}">Show Product Details</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <td colspan="8">
+                    <button type="submit" class="btn btn-primary">Add to cart</button>
+
+                    <div class="navigation">
+                        {{ knp_pagination_render(pages) }}
+                    </div>
+                </td>
+            </div>
+        </form>
+    </div>
+{% endblock %}

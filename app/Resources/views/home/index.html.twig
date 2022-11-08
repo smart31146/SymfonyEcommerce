@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="container">
+        {#<form method="post" action="{{ path('all_products') }}">#}
+        {#<button type="submit" class="btn btn-primary">Products</button>#}
+        {#</form>#}
+        {#<br>#}
+
+        {#<form method="post" action="{{ path('all_categories') }}">#}
+        {#<button type="submit" class="btn btn-primary">Categories</button>#}
+        {#</form>#}
+        {#<br>#}
+        {#{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}#}
+
+        {#<form method="post" action="{{ path('add_product_form') }}">#}
+        {#<button type="submit" class="btn btn-primary">Add Product</button>#}
+        {#</form>#}
+        {#<br>#}
+        {#<form method="post" action="{{ path('add_category_form') }}">#}
+        {#<button type="submit" class="btn btn-primary">Add Category</button>#}
+        {#</form>#}
+        {#{% endif %}#}
+        {#{% if  is_granted('ROLE_ADMIN') %}#}
+        {#<br>#}
+        {#<form method="post" action="{{ path('all_users') }}">#}
+        {#<button type="submit" class="btn btn-primary">Users</button>#}
+        {#</form>#}
+        {#{% endif %}#}
+        <h1 style="color: blue">Welcome to Our Online Shop</h1>
+    </div>
+
+{% endblock %}

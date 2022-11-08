@@ -1,0 +1,70 @@
+{#{% extends "base.html.twig" %}#}
+
+{#{% block body %}#}
+
+    {#<div class="container">#}
+        {#<div class="col-md-4 col-md-offset-4">#}
+            {#{% for product in tag.products %}#}
+                {#<b>{{ product.name }} -> {{ product.price }}</a></b><br>#}
+            {#{% endfor %}#}
+        {#</div>#}
+    {#</div>#}
+
+{#{% endblock %}#}
+
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="count">
+            <h1>Products with tag:<b> {{ tag.name }} </b></h1>
+            {#Total items: {{ pagination.getTotalItemCount }}#}
+        </div>
+        {#Sort by:#}
+        {#{{ knp_pagination_sortable(pagination, "Price", "p.price") }} /#}
+        {#{{ knp_pagination_sortable(pagination, "Name", "p.name") }}/#}
+        {#{{ knp_pagination_sortable(pagination, "ID", "p.id") }}/<br>#}
+
+        <div class="table-responsive">
+            <table class="table table-hover" border="1">
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Show</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in tag.products %}
+                    <tr>
+                        <td><img src="/images/products/{{ product.image }}" style="width: 50px;"></td>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>
+                            {% set product_promotion = calc.calculate(product) %}
+                            {% set col = "black" %}
+
+                            {% if product_promotion != product.price %}
+                                {% set col = "red" %}
+                                <del style="color: black">{{ product.price | number_format(2) }} лв.</del><br/>
+                            {% endif %}
+                            <div style="color: {{ col }}">{{ product_promotion | number_format(2) }} лв.</div>
+                        </td>                        <td><a href="{{ path('product_show', { 'id': product.id }) }}">Show Product Details</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {#<td colspan="8">#}
+            {#<div class="navigation">#}
+            {#{{ knp_pagination_render(pagination) }}#}
+            {#</div>#}
+            {#</td>#}
+            {#<form method="post" action="{{ path('all_products') }}">#}
+                {#<button type="submit" class="btn btn-primary">Back to Products</button>#}
+            {#</form>#}
+        </div>
+    </div>
+{% endblock %}
